@@ -27,8 +27,8 @@
             "iso_url": "iso/cn_windows_server_2016_x64_dvd_9718765.iso",
             "iso_checksum":"none",
             "floppy_files": [
-                "autounattend.xml",
-                "sysprep-autounattend.xml"
+                "./autounattend.xml",
+                "./sysprep-autounattend.xml"
             ],
             "floppy_label": "cidata",
             "shutdown_timeout": "60m",
@@ -58,7 +58,7 @@
     "provisioners": [
         {
             "destination": "/drive",
-            "source": "./Release_27_5/PRO40GB/Winx64/NDIS65",
+            "source": "./file/drive/Release_27_5/PRO40GB/Winx64/NDIS65",
             "type": "file"
         },
         {
