@@ -1,0 +1,69 @@
+{
+    "builders": [
+        {
+            "type": "qemu",
+            "accelerator": "kvm",
+            "boot_command": [
+                "<esc><enter><wait>",
+                "<enter>"
+            ],
+            "boot_wait": "2s",
+            "vm_name": "packer-qemu",
+            "format": "raw",
+            "machine_type": "q35",
+            "output_directory": "./_out",
+            "memory": 8192,
+            "disk_interface": "ide",
+            "disk_size": "20G",
+            "net_device": "e1000",
+            "communicator": "winrm",
+            "winrm_password": "Passw0rd",
+            "winrm_timeout": "36000s",
+            "winrm_username": "Administrator",
+            "winrm_insecure": true,
+            "winrm_use_ntlm": true,
+            "winrm_use_ssl": false,
+            "winrm_port": 5985,
+            "iso_url": "iso/cn_windows_server_2016_x64_dvd_9718765.iso",
+            "iso_checksum":"none",
+            "floppy_files": [
+                "autounattend.xml",
+                "sysprep-autounattend.xml"
+            ],
+            "floppy_label": "cidata",
+            "shutdown_timeout": "60m",
+            "shutdown_command": "%WINDIR%\\System32\\Sysprep\\sysprep.exe /generalize /oobe /shutdown /unattend:A:\\sysprep-autounattend.xml",
+            "use_default_display": "false",
+            "vnc_bind_address": "0.0.0.0",
+            "qemuargs": [
+                [
+                    "-serial",
+                    "stdio"
+                ],
+                [
+                    "-display",
+                    "none"
+                ],
+                [
+                    "-bios",
+                    "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd"
+                ],
+                [
+                    "-usbdevice",
+                    "tablet"
+                ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "destination": "/drive",
+            "source": "./Release_27_5/PRO40GB/Winx64/NDIS65",
+            "type": "file"
+        },
+        {
+            "inline": ["pnputil.exe /a C:\\drive\\NDIS65\\i40ea65.inf"],
+            "type": "powershell"
+        }
+    ]
+}
